@@ -1,0 +1,59 @@
+version: '3.4'
+
+networks:    
+    net:
+      driver: bridge
+      ipam:
+         config:
+            - subnet: 10.5.0.0/16
+
+services:   
+
+  postgresql-b:
+    image: postgres:13
+    container_name: postgresql-b
+    ports:
+      - "2000:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+         net:
+           ipv4_address: 10.5.0.4
+
+  postgresql-b1:
+    image: postgres:13
+    container_name: postgresql-b1
+    ports:
+      - "3000:5432"   
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+         net:
+           ipv4_address: 10.5.0.5
+
+  postgresql-b2:
+    image: postgres:13
+    container_name: postgresql-b2
+    ports:
+      - "4000:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+         net:
+           ipv4_address: 10.5.0.6
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    networks:
+         net:
+           ipv4_address: 10.5.0.7
+    ports:
+       - "5050:80"
